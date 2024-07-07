@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
+'use client';
 import './globals.css';
 import Header from '@/components/Header';
 import WhatsappBubble from './components/WhatsappBubble';
-
-export const metadata: Metadata = {
-  title: 'Estudios laboratoriales',
-  description: 'App para solicitar estudios laboratoriales online',
-};
+import { UserLocationProvider } from '@/context/locationContext';
 
 export default function RootLayout({
   children,
@@ -16,9 +12,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <Header />
-        {children}
-        <WhatsappBubble />
+        <UserLocationProvider>
+          <Header />
+          {children}
+          <WhatsappBubble />
+        </UserLocationProvider>
       </body>
     </html>
   );

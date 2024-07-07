@@ -1,25 +1,18 @@
 'use client';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useContext } from 'react';
 import InputFileDropdown from '@/components/InputFileDropdown';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import { GOOGLE_MAPS_API_KEY } from '@/config/config';
+import { UserLocation } from '@/context/locationContext';
+import MapSelector from '@/components/MapSelector';
+import { useSearchParams } from 'next/navigation';
 
 function UploadRecipe() {
+  const searchParams = useSearchParams();
+  const recipe: Boolean = searchParams.get('recipe') === 'true';
   const [files, setFiles] = useState([]);
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
-    null,
-  );
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY || '',
-  });
+  const { location, setLocation, address, setAddress } =
+    useContext(UserLocation);
 
-  const handleMapClick = useCallback((event) => {
-    setLocation({
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng(),
-    });
-  }, []);
-
+  console.log(recipe);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -42,7 +35,7 @@ function UploadRecipe() {
   };
 
   return (
-    <div className='container m-auto min-h-screen overflow-x-hidden bg-stone-100 p-4'>
+    <div className='container m-auto min-h-screen overflow-x-hidden bg-stone-100 p-4 lg:max-w-5xl'>
       <div className='flex flex-col gap-6 py-10 text-center'>
         <h1 className='text-4xl font-semibold'>
           Sube tu receta médica y nos encargamos del resto
@@ -56,10 +49,15 @@ function UploadRecipe() {
         onSubmit={handleSubmit}
         className='divide-black-300 flex flex-col gap-y-6 rounded-lg bg-white p-4'
       >
-        <InputFileDropdown files={files} setFiles={setFiles} />
-        <p className='pt-6'>
-          Si no tienes una receta médica puedes agendar desde aquí
-        </p>
+        {recipe && (
+          <>
+            {' '}
+            <InputFileDropdown files={files} setFiles={setFiles} />
+            <p className='pt-6'>
+              Si no tienes una receta médica puedes agendar desde aquí
+            </p>
+          </>
+        )}
         <div className='divide-black-300 flex flex-col gap-y-6 divide-y bg-white'>
           <div className='flex flex-col gap-4'>
             <label htmlFor='name' className='text-lg'>
@@ -110,20 +108,12 @@ function UploadRecipe() {
             <label htmlFor='location' className='text-lg'>
               Ubicación
             </label>
-            {isLoaded ? (
-              <div className='h-64 w-full'>
-                <GoogleMap
-                  mapContainerStyle={{ width: '100%', height: '100%' }}
-                  zoom={12}
-                  center={{ lat: -25.520202, lng: -54.627405 }}
-                  onClick={handleMapClick}
-                >
-                  {location && <Marker position={location} />}
-                </GoogleMap>
-              </div>
-            ) : (
-              <p>Cargando mapa...</p>
-            )}
+            <MapSelector
+              location={location}
+              setLocation={setLocation}
+              setAddress={setAddress}
+            />
+            <span className='text-sm font-extralight'>{address}</span>
             <button className='rounded-md bg-blue-500 p-4 text-center text-white'>
               Agendar estudios
             </button>

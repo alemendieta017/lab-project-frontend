@@ -9,7 +9,7 @@ function UploadRecipe() {
   const searchParams = useSearchParams();
   const recipe: Boolean = searchParams.get('recipe') === 'true';
   const [files, setFiles] = useState([]);
-  const { location, setLocation, address, setAddress } =
+  const { location, setLocation, address, setAddress, setLocationURL } =
     useContext(UserLocation);
 
   console.log(recipe);
@@ -112,6 +112,7 @@ function UploadRecipe() {
               location={location}
               setLocation={setLocation}
               setAddress={setAddress}
+              setLocationURL={setLocationURL}
             />
             <span className='text-sm font-extralight'>{address}</span>
             <button className='rounded-md bg-blue-500 p-4 text-center text-white'>

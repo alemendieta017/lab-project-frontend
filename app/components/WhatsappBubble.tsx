@@ -14,7 +14,7 @@ const WhatsappBubble = () => {
   return (
     <a
       href={chatUrl}
-      className='fixed bottom-4 right-4 flex items-center justify-center rounded-full bg-blue-900 p-4'
+      className='fixed bottom-4 right-4 z-20 flex items-center justify-center rounded-full bg-blue-900 p-4'
     >
       <svg
         xmlns='http://www.w3.org/2000/svg'

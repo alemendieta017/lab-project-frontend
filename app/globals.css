@@ -23,3 +23,16 @@
 .custom-shape-divider-bottom-1720393814 .shape-fill {
   fill: #D6D6D6;
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in-animation {
+  animation: fade-in 1s ease-out forwards;
+}

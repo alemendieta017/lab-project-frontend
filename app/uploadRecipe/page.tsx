@@ -36,7 +36,7 @@ function UploadRecipe() {
   };
 
   return (
-    <div className='container m-auto min-h-screen overflow-x-hidden bg-stone-100 p-4 py-14 lg:max-w-5xl'>
+    <div className='container m-auto min-h-screen overflow-x-hidden bg-stone-100 p-4 py-14 lg:max-w-5xl fade-in-animation'>
       <div className='flex flex-col gap-6 py-10 text-center'>
         <h1 className='text-4xl font-semibold'>
           {recipe

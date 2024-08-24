@@ -1,10 +1,12 @@
 'use client';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import InputFileDropdown from '@/components/InputFileDropdown';
 import { UserLocation } from '@/context/locationContext';
 import MapSelector from '@/components/MapSelector';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UploadRecipe() {
   const searchParams = useSearchParams();
@@ -12,31 +14,47 @@ function UploadRecipe() {
   const [files, setFiles] = useState([]);
   const { location, setLocation, address, setAddress, setLocationURL } =
     useContext(UserLocation);
+  const formRef = useRef<HTMLFormElement>(null);
 
   console.log(recipe);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    formData.append('location', JSON.stringify(location));
+    if (!formRef.current) return;
+    const formData = new FormData(formRef.current);
+    const formDataObj: { [key: string]: any } = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    formDataObj['latitude'] = location.lat;
+    formDataObj['longitude'] = location.lng;
+    const jsonFormData = JSON.stringify(formDataObj);
 
     try {
-      const response = await fetch('/api/submit-recipe', {
-        method: 'POST',
-        body: formData,
-      });
+      console.log(formData);
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + '/scheduling',
+        {
+          method: 'POST',
+          body: jsonFormData,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        },
+      );
       if (response.ok) {
-        alert('Datos enviados con éxito');
+        toast.success('Datos enviados con éxito');
       } else {
-        alert('Error al enviar datos');
+        toast.error('Error al enviar datos');
       }
     } catch (error) {
       console.error('Error al enviar datos', error);
-      alert('Error al enviar datos');
+      toast.error('Error al enviar datos');
     }
   };
 
   return (
-    <div className='container m-auto min-h-screen overflow-x-hidden bg-stone-100 p-4 py-14 lg:max-w-5xl fade-in-animation'>
+    <div className='fade-in-animation container m-auto min-h-screen overflow-x-hidden bg-stone-100 p-4 py-14 lg:max-w-5xl'>
+      <ToastContainer />
       <div className='flex flex-col gap-6 py-10 text-center'>
         <h1 className='text-4xl font-semibold'>
           {recipe
@@ -50,6 +68,7 @@ function UploadRecipe() {
         </p>
       </div>
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
         className='divide-black-300 flex flex-col gap-y-6 rounded-lg bg-white p-4'
       >
@@ -89,7 +108,7 @@ function UploadRecipe() {
             <input
               type='text'
               id='name'
-              name='name'
+              name='firstName'
               className='rounded-md border border-gray-300 p-2'
             />
             <label htmlFor='lastname' className='text-lg'>
@@ -98,7 +117,7 @@ function UploadRecipe() {
             <input
               type='text'
               id='lastname'
-              name='lastname'
+              name='lastName'
               className='rounded-md border border-gray-300 p-2'
             />
             <label htmlFor='phone' className='text-lg'>
@@ -107,7 +126,7 @@ function UploadRecipe() {
             <input
               type='text'
               id='phone'
-              name='phone'
+              name='phoneNumber'
               className='rounded-md border border-gray-300 p-2'
             />
             <label htmlFor='email' className='text-lg'>

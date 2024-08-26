@@ -6,7 +6,7 @@ const Header = () => {
   const { address } = useContext(UserLocation);
 
   return (
-    <header className='absolute z-20 shadow w-full'>
+    <header className='absolute z-20 shadow w-full bg-white'>
       <Link
         href='/setLocation'
         className='flex cursor-pointer flex-row justify-center gap-1 p-4'

@@ -20,6 +20,8 @@ const MapSelector = ({
   setAddress: (address: string) => void;
   setLocationURL: (locationUrl: string) => void;
 }) => {
+  const DEFAULT_CENTER_LOCATION = { lat: -25.520202, lng: -54.627405 };
+  const locationSelected = location.lat !== 0 && location.lng !== 0;
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY || '',
   });
@@ -62,7 +64,7 @@ const MapSelector = ({
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '100%' }}
             zoom={12}
-            center={{ lat: -25.520202, lng: -54.627405 }}
+            center={locationSelected ? location : DEFAULT_CENTER_LOCATION}
             onClick={handleMapClick}
           >
             {location && <Marker position={location} />}

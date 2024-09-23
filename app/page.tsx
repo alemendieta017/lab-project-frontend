@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { WHATSAPP_CHAT_URL } from './config/config';
 import { UserLocation } from './context/locationContext';
 import { useContext } from 'react';
+import Header from './components/Header';
 
 export default function Home() {
   const { locationURL } = useContext(UserLocation);
@@ -14,6 +15,7 @@ export default function Home() {
 
   return (
     <>
+      <Header />
       <main className='relative bg-gradient-to-t from-gray-300 to-30%'>
         <div className='container relative z-10 m-auto min-h-screen px-4 py-14 lg:max-w-3xl'>
           <div className='flex flex-col gap-y-6 py-10 text-center'>

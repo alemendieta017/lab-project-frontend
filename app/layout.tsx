@@ -1,6 +1,5 @@
 'use client';
 import './globals.css';
-import Header from '@/components/Header';
 import WhatsappBubble from './components/WhatsappBubble';
 import { UserLocationProvider } from '@/context/locationContext';
 
@@ -13,7 +12,6 @@ export default function RootLayout({
     <html lang='en'>
       <body>
         <UserLocationProvider>
-          <Header />
           {children}
           <WhatsappBubble />
         </UserLocationProvider>

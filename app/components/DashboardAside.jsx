@@ -6,9 +6,8 @@ import { usePathname } from 'next/navigation';
 
 const DashboardAside = () => {
   const pathname = usePathname();
-  console.log(pathname)
   return (
-    <aside className='w-64 bg-gray-800 py-20 text-white hidden md:block'>
+    <aside className='hidden w-64 bg-gray-800 py-20 text-white md:block'>
       <nav className='p-4 text-center'>
         <ul>
           <li>
@@ -20,9 +19,14 @@ const DashboardAside = () => {
             </Link>
           </li>
           <li>
-            <button className={`text-lef w-full p-2`} onClick={logout}>
-              Cerrar sesión
-            </button>
+            <form action={logout}>
+              <button
+                type='submit'
+                className={`text-lef w-full p-2`}
+              >
+                Cerrar sesión
+              </button>
+            </form>
           </li>
         </ul>
       </nav>

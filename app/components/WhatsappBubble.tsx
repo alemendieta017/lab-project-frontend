@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 const WhatsappBubble = () => {
   const { locationURL } = useContext(UserLocation);
   const pathName = usePathname();
-  const hiddenPathnames = ['/login', '/register', '/forgot-password', '/dashboard'];
+  const hiddenPathnames = ['/login', '/register', '/forgot-password', '/dashboard', '/dashboard/schedulings'];
 
   const chatUrl =
     locationURL !== ''

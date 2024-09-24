@@ -5,22 +5,14 @@ import { getSession } from '@/lib/session';
 export default async function LoginPage() {
   const session = await getSession();
 
-  console.log(session);
-
-  const handleSubmit = async (formData: FormData) => {
-    'use server';
-    try {
-      await login(formData);
-      redirect('/dashboard');
-    } catch (err) {
-      return 'Invalid email or password';
-    }
-  };
+  if (session) {
+    redirect('/dashboard');
+  }
 
   return (
-    <div className='flex min-h-screen items-center justify-center'>
+    <div className='flex min-h-screen items-center justify-center bg-slate-50'>
       <form
-        className='mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md'
+        className='m-4 mb-4 w-full rounded bg-white px-8 pb-8 pt-6 shadow-md md:w-1/3'
         action={login}
       >
         <h1 className='mb-8 text-center text-4xl font-bold'>Ingresar</h1>
@@ -51,7 +43,7 @@ export default async function LoginPage() {
             id='password'
             type='password'
             name='password'
-            placeholder='******************'
+            placeholder='******'
           />
         </div>
         <div className='flex items-center justify-between'>

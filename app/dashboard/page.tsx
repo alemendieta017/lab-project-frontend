@@ -1,7 +1,5 @@
-// src/app/dashboard/page.tsx
 import { redirect } from 'next/navigation';
 
-export default function DashboardRedirect() {
-  // Redirige automáticamente a /dashboard/schedulings
+export default async function Dashboard() {
   redirect('/dashboard/schedulings');
 }

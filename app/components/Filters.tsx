@@ -19,7 +19,7 @@ export default function Filters({ placeholder }: { placeholder: string }) {
   }
 
   return (
-    <div className='relative flex flex-1 flex-shrink-0 py-10'>
+    <div className='relative flex flex-1 flex-shrink-0 py-6'>
       <label htmlFor='search' className='sr-only'>
         Search
       </label>

@@ -3,9 +3,12 @@ import React from 'react';
 import { WHATSAPP_CHAT_URL } from '@/config/config';
 import { useContext } from 'react';
 import { UserLocation } from '@/context/locationContext';
+import { usePathname } from 'next/navigation';
 
 const WhatsappBubble = () => {
   const { locationURL } = useContext(UserLocation);
+  const pathName = usePathname();
+  const hiddenPathnames = ['/login', '/register', '/forgot-password', '/dashboard'];
 
   const chatUrl =
     locationURL !== ''
@@ -14,7 +17,7 @@ const WhatsappBubble = () => {
   return (
     <a
       href={chatUrl}
-      className='fixed bottom-4 right-4 z-20 flex items-center justify-center rounded-full bg-blue-900 p-4'
+      className={`fixed bottom-4 right-4 z-20 flex items-center justify-center rounded-full bg-blue-900 p-4 ${hiddenPathnames.includes(pathName) ? 'hidden' : ''}`}
     >
       <svg
         xmlns='http://www.w3.org/2000/svg'
